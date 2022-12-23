@@ -1,0 +1,112 @@
+
+<nav class="navbar bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand"><h3>MTR Routing Suggestion</h3></a>
+      <div>
+        <h5>Hello, {{fullName}}</h5>
+        <button (click)="logOut()" class="btn btn-danger">Log Out</button>
+      </div>
+    </div>
+</nav>
+<div class="container-fluid">
+  <div class="panel-body p-3">
+    <form [formGroup] = "routeSuggestionForm">
+      <label class = "col-sm-2">
+        Start Point
+      </label>
+      <div class="col-sm-10">
+        <select formControlName="startpoint" name="Startpoint" (change)="ChangeStartpoint($event)" class ="form-control">
+          <option>--Select--</option>
+          <option [value]="sp.name" *ngFor = "let sp of stations">
+            {{sp.name}}
+          </option>
+        </select>
+      </div>
+      <small *ngIf="routeSuggestionForm.controls['startpoint'].dirty && routeSuggestionForm.hasError('required','startpoint')" class="text-danger">*Start Point is required</small>
+      
+      <label class = "col-sm-2">
+        End Point
+      </label> 
+      <div class="col-sm-10">
+        <select formControlName="endpoint" name="Endpoint" (change)="ChangeEndpoint($event)" class ="form-control">
+          <option>--Select--</option>
+          <option [value]="ep.name" *ngFor = "let ep of stations">
+            {{ep.name}}
+          </option>
+        </select>
+      </div>
+      <small *ngIf="routeSuggestionForm.controls['endpoint'].dirty && routeSuggestionForm.hasError('required','endpoint')" class="text-danger">*End Point is required</small>
+      
+      <button (click)="onSearch()" class="btn btn-danger">Search Route</button>
+    
+    </form>
+  
+  </div>
+  
+  <div class="col-sm-10">
+    <label class = "col-sm-2">
+      Route Suggestion
+    </label> 
+    
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Start Point</th>
+          <th scope="col">End Point</th>
+          <th scope="col">No. of Stations Inbetween</th>
+          <th scope="col">Distance</th>
+          <th scope="col">Fare</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor = "let route of listRouteSuggestion" >
+          <th scope="row">#</th>
+           <td>{{route.startPoint}}</td>
+           <td>{{route.endPoint}}</td>
+           <td>{{route.noOfStationsInbetween}}</td>
+           <td>{{route.distance}}</td>
+           <td>{{route.fare}}</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  
+  </div>
+  
+  <ng-container *ngIf="role === 'Admin'">
+    <div class="col-sm-10">
+      <label class = "col-sm-2">
+        Search History
+      </label> 
+      
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Start Point</th>
+            <th scope="col">End Point</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor = "let search of searchHistory" >
+            <th scope="row">{{search.id}}</th>
+             <td>{{search.startPoint}}</td>
+             <td>{{search.endPoint}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    
+    </div>
+
+  </ng-container>
+  
+
+</div>
+
+
+
+
